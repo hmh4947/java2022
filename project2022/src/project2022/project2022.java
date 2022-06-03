@@ -1,10 +1,14 @@
 package project2022;
 import java.awt.BorderLayout;
+
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Label;
+import java.awt.Panel;
 import java.awt.TextArea;
 import java.awt.Toolkit;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -15,56 +19,61 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 
 public class project2022 extends JFrame {
+	
+	
 	private double op1 = 0;
 	private double op2 = 0;
-	private String operator = "+";//이벤트발생시 연산자를 담을 변수
+	private String operator = "+";
 	private JLabel status;
+	private Label dispL, inputL;
 	
+
+
 	Stack<String> stack = new Stack<>();
 	List<String> result = new ArrayList<>();
 	List<String> output = new ArrayList<>();
 	TextArea txtA;
+	JTextField tf;
+	String text = "";  // 눌러진 버튼의 값들을 저장하기 위한 변수
 
 
 
-
+	
 	public project2022() {
+		JPanel panel = new JPanel();
+
+		panel.setLayout(new GridLayout(6, 4));
+		
+
 		this.setTitle("계산기");
 		this.setBounds(100,100,300,450);
-		this.setLayout(new BorderLayout());
-		
-		
-			GridLayout gridLayout  = new GridLayout(8, 0);
-			JMenuBar menuBar =new JMenuBar();
-			JMenu fileMenu = new JMenu("≡");
-			JMenu editMenu = new JMenu("표준");
-			menuBar.add(fileMenu);
-			menuBar.add(editMenu);
-			JMenuItem openMenuItem = new JMenuItem("⇱");
-			JMenuItem saveMenuItem = new JMenuItem("");
-			menuBar.add(openMenuItem);
-			menuBar.add(saveMenuItem);
-			this.setJMenuBar(menuBar);
 	
-
-			
 		
-		Image icon = Toolkit.getDefaultToolkit().getImage("cal2.GIF");
+		JMenuBar menuBar =new JMenuBar();
+		JMenu fileMenu = new JMenu("≡");
+		JMenu sizeMenu = new JMenu("기록");
+		JMenuItem saveMenuItem = new JMenuItem("표준");
+		menuBar.add(fileMenu);
+		menuBar.add(saveMenuItem);
+		menuBar.add(sizeMenu);
+		this.setJMenuBar(menuBar);
+			
+		Image icon = Toolkit.getDefaultToolkit().getImage("cal.GIF");
 		this.setIconImage(icon);
 		
-		JTextField display = new JTextField("0");
+	
+		JTextField display = new JTextField();
+		display.setText("0");
 		display.setFont(new Font("궁서체", Font.BOLD , 50 ));
 		display.setHorizontalAlignment(JTextField.RIGHT);
+		
 		this.add( BorderLayout.NORTH, display);
 		
-		
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(6, 4));
-
 		JButton btnCE = new JButton("CE");
 		btnCE.addActionListener( e -> {
 			op2 =0;
@@ -254,10 +263,20 @@ public class project2022 extends JFrame {
 		btnEqual.addActionListener( e -> {
 			op2 = Double.parseDouble( display.getText() );
 			double result =calc( op1, op2, operator );
-			display.setText( "" + result );
+			display.setText("" + result );
+			//op1 + " " + operator + " " + op2 + " = " + result
+			
+		/*	JLabel label2 = new JLabel("SunRise");
+		       label2.setSize(100, 200);
+		       label2.setLocation(100, 400);
+		       this.add( BorderLayout.NORTH, status );
+		      this.setVisible(true);
+		       label2.setOpaque(true);
+		       label2.add(label2);*/
 		});
 
 		panel.add(btnEqual);
+		
 		
 		JButton btnpercent = new JButton("%");
 		btnpercent.addActionListener( e -> {
@@ -274,36 +293,31 @@ public class project2022 extends JFrame {
 				  display.setText(display.getText().substring(0, display.getText().length() - 1));
               }
 			  display.requestFocusInWindow();
-          
-			
 
 		});
-
 		panel.add(btnbackspace);
-		
-		
-		
+	
+	
 		panel.add(btnpercent);panel.add(btnCE);panel.add(btnClear);panel.add(btnbackspace);
 		panel.add(btnfraction);panel.add(btnsquare);panel.add(btnroot);panel.add(btndivide);
 		panel.add(btn7);panel.add(btn8);panel.add(btn9);panel.add(btnMult);
-		
 		panel.add(btn4);panel.add(btn5);panel.add(btn6);panel.add(btnMinus);
-
 		panel.add(btn1);panel.add(btn2);panel.add(btn3);panel.add(btnPlus);
-
 		panel.add(btnnp);panel.add(btn0);panel.add(btnDot);panel.add(btnEqual);
 		
-		
-		
+	
 		this.add( BorderLayout.CENTER, panel);	
 		
+	
+	
+
 		JLabel status = new JLabel("버튼을 클릭하세요");
 	
 		this.add( BorderLayout.SOUTH, status );
 		this.setVisible(true);
 	}
-	
 	private double calc(double op1, double op2, String operator) {
+		
 		double result = 0;
 		
 		switch( operator ){
@@ -333,16 +347,14 @@ public class project2022 extends JFrame {
 			break;
 		}
 		return result;
-		
 	}
+	
 
 	public static void main(String[] args) {
 		
-
 		new project2022().setVisible(true);
 		
-		
-	}
-	
+
+		    }
 	
 }
